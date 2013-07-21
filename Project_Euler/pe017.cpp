@@ -13,9 +13,9 @@ int count(int n)
 	int sum=0;
 	int t=n;
 	int a1=t/100;
-	t-=a1*100;
+	t%=100;
 	int a2=t/10;
-	t-=a2*10;
+	t%=10;
 	int a3=t;
 
 	if (a1!=0)
@@ -27,21 +27,23 @@ int count(int n)
 	{
 		sum+=c[a3];
 	}
-	else if (a2!=0)
+	else if (a2==0 || a2>1)
 	{
 		sum+=b[a2];
 	}
-	if (a3!=0 && a2!=1)
+	if (a3!=0 && (a2==0 || a2>1))
 	{
 		sum+=a[a3];
 	}
+
+	if (a1!=0 && a2==0 && a3==0)
+		sum-=3;
 
 	return sum;
 }
 
 int main(void)
 {
-	count(110);
 	long long sum=0;
 
 	for (int i=1;i<=999;i++)
