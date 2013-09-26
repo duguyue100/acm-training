@@ -5,7 +5,7 @@ ACM/ICPC SELF TRAINING
 
 * Java
     + StreamTokenizer and PrintWriter is faster than Scanner and System.out
-    + Reform of Token from StreamTokenizer is necessary: (int)input.nextToken()
+    + Reform of Token from StreamTokenizer is necessary: `(int)input.nextToken()`
     + Use multiple Scanner in one program will cause problem (Runtime Error).
     + Java cannot manipulate each elements in the string (read only). So, if you don't like `subString()` method, you can easily use `toCharArray()` method to do such operation.
     + Generally, Java is slower than C++ (especially for manipulating character and IO)
@@ -28,3 +28,11 @@ ACM/ICPC SELF TRAINING
     + Sometimes, the relationship between numbers are much more effective than use searching algorithm.
     + If you have n integers and want to determine the median, there is an O(N) (not exactly O(N)) solution. By using priority queue, load first n/2+1 numbers, and then load another n/2, meanwhile, keep popping the one with highest priority.
     + Sometimes, precision of numbers is very very important. You may want to rescale the number or add an very small number (e.x.: 0.0000001) to keep the precision.
+
+
+###Contacts###
+Hu Yuhuang (duguyue100)
+
+Email: duguyue100@gmail.com
+
+Address: No.42, North, Flatland.
