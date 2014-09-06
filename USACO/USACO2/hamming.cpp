@@ -28,16 +28,6 @@ int bilength(int n)
 	return leng;
 }
 
-bool check(int a, int b)
-{
-	int c=a xor b;
-
-	if (bilength(c)>=D)
-		return true;
-
-	return false;
-}
-
 bool check_valid(int n, int count)
 {
 	for (int i=0;i<count;i++)
@@ -103,5 +93,3 @@ int main(void)
 
 	return 0;
 }
-
-

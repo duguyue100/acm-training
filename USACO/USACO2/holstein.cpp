@@ -13,7 +13,6 @@ using namespace std;
 struct State{
 	bool s[26]; // path
 	int c[26]; // cost
-	short count;
 };
 
 int V=0, G=0;
@@ -45,7 +44,6 @@ void search(State s, int n)
 		t.s[n]=true;
 		for (int i=1;i<=V;i++)
 			t.c[i]+=g[n][i];
-		t.count++;
 
 		search(t, n-1); // choose
 	}
@@ -98,7 +96,6 @@ int main(void)
 		t.s[i]=false;
 	for (int i=1;i<=V;i++)
 		t.c[i]=0;
-	t.count=0;
 
 
 	search(t, G);
