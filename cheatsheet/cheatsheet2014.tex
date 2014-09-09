@@ -1,0 +1,255 @@
+\documentclass[a4paper]{article}
+
+\usepackage[left=1cm,right=1cm,top=1cm,right=1cm]{geometry}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{\textbf{ACM/ICPC CheatSheet}}
+\author{Puzzles}
+\date{}
+
+\pagestyle{empty}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+	
+{\footnotesize\tableofcontents}
+
+\section{STL Useful Tips}
+
+\subsection{Common libraries}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+#include<string>
+#include<queue>
+#include<stack>
+#include<vector>
+#include<deque> // double ended queue
+#include<priority_queue> // priority queue
+#include <functional> // for hash
+#include<algorithm>
+#include<cstdlib> // random
+#include<ctime>
+#include<sstream>
+\end{minted}
+
+\subsection{String}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// Searching
+unsigned int find(const string &s2, unsigned int pos1 = 0);
+unsigned int rfind(const string &s2, unsigned int pos1 = end);
+unsigned int find_first_of(const string &s2, unsigned int pos1 = 0);
+unsigned int find_last_of(const string &s2, unsigned int pos1 = end);
+unsigned int find_first_not_of(const string &s2, unsigned int pos1 = 0);
+unsigned int find_last_not_of(const string &s2, unsigned int pos1 = end);
+// Insert, Erase, Replace
+string& insert(unsigned int pos1, const string &s2);
+string& insert(unsigned int pos1, unsigned int repetitions, char c);
+string& erase(unsigned int pos = 0, unsigned int len = npos);
+string& replace(unsigned int pos1, unsigned int len1, const string &s2);
+string& replace(unsigned int pos1, unsigned int len1, unsigned int repetitions, char c);
+// String streams
+stringstream s1;
+int i = 22;
+s1 << "Hello world! " << i;
+cout << s1.str() << endl;
+\end{minted}
+
+\subsection{Sort}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+void sort(iterator first, iterator last);
+void sort(iterator first, iterator last, LessThanFunction comp);
+void stable_sort(iterator first, iterator last);
+void stable_sort(iterator first, iterator last, LessThanFunction comp);
+void partial_sort(iterator first, iterator middle, iterator last);
+void partial_sort(iterator first, iterator middle, iterator last, LessThanFunction comp);
+bool is_sorted(iterator first, iterator last);
+bool is_sorted(iterator first, iterator last, LessThanOrEqualFunction comp);
+// example for sort, if have array x, start_index, end_index;
+sort(x+start_index, x+end_index);
+\end{minted}
+
+\subsection{Permutations}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+bool next_permutation(iterator first, iterator last);
+bool next_permutation(iterator first, iterator last, LessThanOrEqualFunction comp);
+bool prev_permutation(iterator first, iterator last);
+bool prev_permutation(iterator first, iterator last, LessThanOrEqualFunction comp);
+\end{minted}
+
+\subsection{Searching}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+iterator find(iterator first, iterator last, const T &value);
+iterator find_if(iterator first, iterator last, const T &value, TestFunction test);
+bool binary_search(iterator first, iterator last, const T &value);
+bool binary_search(iterator first, iterator last, const T &value, LessThanOrEqualFunction comp);
+\end{minted}
+
+\subsection{Random algorithm}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+srand(time(NULL));
+// generate random numbers between [a,b)
+rand() % (b - a) + a;
+// generate random numbers between [0,b)
+rand() % b; 
+// generate random permutations
+random_permutation(anArray, anArray + 10);
+random_permutation(aVector, aVector + 10);
+\end{minted}
+	
+\section{Number Theory}
+
+\subsection{Max or min}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+int max(int a, int b) { return a>b ? a:b; }
+int min(int a, int b) { return a<b ? a:b; }
+\end{minted}
+
+\subsection{Greatest common divisor --- GCD}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+int gcd(int a, int b)
+{
+	if (b==0) return a;
+	else return gcd(b, a%b);
+}
+\end{minted}
+
+\subsection{Least common multiple --- LCM}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+int lcm(int a, int b)
+{
+	return a*b/gcd(a,b);
+}
+\end{minted}
+
+\subsection{If prime number}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+bool prime(int n)
+{
+	for (int i=2;i*i<=n;i++)
+		if (n%i==0) return false;
+	return true;
+}
+\end{minted}
+
+\subsection{Leap year}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+bool isLeap(int n)
+{
+	if (n%100==0)
+		if (n%400==0) return true;
+		else return false;
+
+	if (n%4==0) return true;
+	else return false;
+}
+\end{minted}
+
+\subsection{Factorial \texttt{mod}}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+//n! mod p
+int factmod (int n, int p) {
+	long long res = 1;
+	while (n > 1) {
+		res = (res * powmod (p-1, n/p, p)) % p;
+		for (int i=2; i<=n%p; ++i)
+			res=(res*i) %p;
+		n /= p;
+	}
+	return int (res % p);
+}
+\end{minted}
+
+\subsection{$a^b$ \texttt{mod} $p$}
+
+\subsection{Generate combinations}
+
+\section{Searching Algorithms}
+
+\subsection{Depth first search --- DFS}
+
+\subsection{Breath first search -- BFS}
+
+\subsection{Find rank $k$ in array}
+
+\section{Dynamic Programming}
+
+\subsection{Knapsack problems}
+
+\subsection{Longest common subsequence}
+
+\subsection{Maximum submatrix}
+
+\section{Trees}
+
+\subsection{Tree representation in array}
+
+\subsection{Tree traversal}
+
+\section{Graph Theory}
+
+\subsection{Flood fill algorithm}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+//component(i) denotes the
+//component that node i is in
+void flood_fill(new_component) 
+	do
+		num_visited = 0
+		for all nodes i
+			if component(i) = -2
+			num_visited = num_visited + 1
+			component(i) = new_component
+		
+		for all neighbors j of node i
+			if component(j) = nil
+				component(j) = -2
+	until num_visited = 0 
+
+void find_components()
+	num_components = 0
+	for all nodes i
+		component(node i) = nil
+	for all nodes i
+		if component(node i) is nil
+			num_components = num_components + 1
+			component(i) = -2
+			flood_fill(component num_components)
+\end{minted}
+
+\subsection{SPFA --- shortest path}
+
+\subsection{Floyd-Warshall algorithm -- shortest path of all pairs}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// map[i][j]=infinity at start
+void floyd()
+{
+	for (int k=1; k<=n; k++)
+		for (int i=1; i<=n; i++)
+			for (int j=1; j<=n; j++)
+				if (i!=j && j!=k && i!=k)
+					if (map[i][k]+map[k][j]<map[i][j])
+						map[i][j]=map[i][k]+map[k][j];
+}
+\end{minted}
+
+\subsection{Prim --- minimum spanning tree}
+
+\subsection{Eulerian path}
+
+\subsection{Topological sort}
+
+\end{document}
