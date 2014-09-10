@@ -35,6 +35,75 @@
 #include<cstdlib> // random
 #include<ctime>
 #include<sstream>
+#include<climits> // all useful constants 
+\end{minted}
+
+\subsection{Useful constant}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+INT_MIN
+INT_MAX
+LONG_MIN
+LONG_MAX
+LLONG_MIN
+LLONG_MAX
+(~0u) // infinity (for long and long long)
+      // use (~0u)>>2 for int.
+\end{minted}
+
+\subsection{Space waster}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// consider to redefine data types to void data range problem
+#define int long long // make everyone long long
+#define double long double // make everyone long double
+
+// function definitions
+
+#undef int // main must return int
+int main(void)
+#define int long long // redefine int
+
+// rest of program
+\end{minted}
+
+\subsection{Initialize array with predefined value}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// for 1d array, use STL fill_n or fill to initialize array
+fill(a, a+size_of_a, value)
+fill_n(a, size_of_a, value)
+// for 2d array, if want to fill in 0 or -1
+memset(a, 0, sizeof(a));
+	// otherwise, use a loop of fill or fill_n through every a[i]
+	fill(a[i], a[i]+size_of_ai, value) // from 0 to number of row.
+\end{minted}
+
+\subsection{Modifying sequence operations}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+void copy(first, last, result);
+void swap(a,b);
+void swap(first1, last1, first2); // swap range
+void replace(first, last, old_value, new_value); // replace in range
+void replace_if(first, last, pred, new_value); // replace in conditions
+	// pred can be represented in function
+	// e.x. bool IsOdd (int i) { return ((i%2)==1); }
+void reverse(first, last); // reverse a range of elements
+void reverse_copy(first, last, result); // copy a reverse of range of elements
+void random_shuffle(first, last); // using built-in random generator to shuffle array
+\end{minted}
+
+\subsection{Merge}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// merge sorted ranges
+void merge(first1, last1, first2, last2, result, comp);
+// union of two sorted ranges
+void set_union(first1, last1, first2, last2, result, comp);
+// intersection of two sorted ranges
+void set_interaction(first1, last1, first2, last2, result, comp);
+// difference of two sorted ranges
+void set_difference((first1, last1, first2, last2, result, comp);
 \end{minted}
 
 \subsection{String}
@@ -58,6 +127,41 @@ stringstream s1;
 int i = 22;
 s1 << "Hello world! " << i;
 cout << s1.str() << endl;
+\end{minted}
+
+\subsection{Heap}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+template <class RandomAccessIterator>
+	void push_heap (RandomAccessIterator first, RandomAccessIterator last);
+template <class RandomAccessIterator, class Compare>
+	void push_heap (RandomAccessIterator first, RandomAccessIterator last,
+					Compare comp);
+					
+template <class RandomAccessIterator>
+	void pop_heap (RandomAccessIterator first, RandomAccessIterator last);
+template <class RandomAccessIterator, class Compare>
+	void pop_heap (RandomAccessIterator first, RandomAccessIterator last,
+					Compare comp);
+					
+template <class RandomAccessIterator>
+	void make_heap (RandomAccessIterator first, RandomAccessIterator last);
+template <class RandomAccessIterator, class Compare>
+	void make_heap (RandomAccessIterator first, RandomAccessIterator last,
+					Compare comp );
+					
+template <class RandomAccessIterator>
+	void sort_heap (RandomAccessIterator first, RandomAccessIterator last);
+template <class RandomAccessIterator, class Compare>
+	void sort_heap (RandomAccessIterator first, RandomAccessIterator last,
+					Compare comp);
+template <class RandomAccessIterator>
+	RandomAccessIterator is_heap_until (RandomAccessIterator first,
+										RandomAccessIterator last);
+template <class RandomAccessIterator, class Compare>
+	RandomAccessIterator is_heap_until (RandomAccessIterator first,
+										RandomAccessIterator last
+										Compare comp);
 \end{minted}
 
 \subsection{Sort}
@@ -85,6 +189,7 @@ bool prev_permutation(iterator first, iterator last, LessThanOrEqualFunction com
 
 \subsection{Searching}
 \begin{minted}[frame=lines, tabsize=2]{cpp}
+// will return address of iterator, call result as *iterator;
 iterator find(iterator first, iterator last, const T &value);
 iterator find_if(iterator first, iterator last, const T &value, TestFunction test);
 bool binary_search(iterator first, iterator last, const T &value);
@@ -156,6 +261,20 @@ bool isLeap(int n)
 }
 \end{minted}
 
+\subsection{$a^b$ \texttt{mod} $p$}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+long powmod(long base, long exp, long modulus) {
+	base %= modulus;
+	long result = 1;
+	while (exp > 0) {
+		if (exp & 1) result = (result * base) % modulus;
+		base = (base * base) % modulus;
+		exp >>= 1;
+	}
+	return result;
+}
+\end{minted}
+
 \subsection{Factorial \texttt{mod}}
 
 \begin{minted}[frame=lines, tabsize=2]{cpp}
@@ -172,9 +291,31 @@ int factmod (int n, int p) {
 }
 \end{minted}
 
-\subsection{$a^b$ \texttt{mod} $p$}
-
 \subsection{Generate combinations}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// n>=m, choose M numbers from 1 to N.
+void combination(int n, int m)
+{
+	if (n<m) return ;
+	int a[50]={0};
+	int k=0;
+
+	for (int i=1;i<=m;i++) a[i]=i;
+	while (true)
+	{
+		for (int i=1;i<=m;i++)
+			cout << a[i] << " ";
+		cout << endl;
+
+		k=m;
+		while ((k>0) && (n-a[k]==m-k)) k--;
+		if (k==0) break;
+		a[k]++;
+		for (int i=k+1;i<=m;i++)
+			a[i]=a[i-1]+1;
+	}
+}
+\end{minted}
 
 \section{Searching Algorithms}
 

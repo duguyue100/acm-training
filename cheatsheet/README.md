@@ -17,7 +17,13 @@ Currently the contents include
 
 + STL Useful Tips
   + Common Libraries
+  + Useful constant
+  + Space waster
+  + Initialize array with predefined value
+  + Modifying sequence operations
+  + Merge
   + String
+  + Heap
   + Sort
   + Permutations
   + Searching
@@ -28,9 +34,9 @@ Currently the contents include
   + LCM
   + If prime number
   + Leap year
-  + Factorial `mod` [TODO]
-  + `a^b mod p` [TODO]
-  + Generate combinations [TODO]
+  + Factorial `mod`
+  + `a^b mod p`
+  + Generate combinations
 + Searching Algorithms
   + DFS [TODO]
   + BFS [TODO]
