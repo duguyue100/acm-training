@@ -319,10 +319,6 @@ void combination(int n, int m)
 
 \section{Searching Algorithms}
 
-\subsection{Depth first search --- DFS}
-
-\subsection{Breath first search -- BFS}
-
 \subsection{Find rank $k$ in array}
 
 \section{Dynamic Programming}
@@ -330,6 +326,26 @@ void combination(int n, int m)
 \subsection{Knapsack problems}
 
 \subsection{Longest common subsequence}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+int dp[1001][1001];
+
+int lcs(const string &s, const string &t)
+{
+	int m = s.size(), n = t.size();
+	if (m == 0 || n == 0) return 0;
+	for (int i=0; i<=m; ++i)
+		dp[i][0] = 0;
+	for (int j=1; j<=n; ++j)
+		dp[0][j] = 0;
+	for (int i=0; i<m; ++i)
+		for (int j=0; j<n; ++j)
+			if (s[i] == t[j])
+        		dp[i+1][j+1] = dp[i][j]+1;
+        	else
+        		dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1]);
+	return dp[m][n];
+}
+\end{minted}
 
 \subsection{Maximum submatrix}
 
@@ -388,6 +404,21 @@ void floyd()
 \end{minted}
 
 \subsection{Prim --- minimum spanning tree}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+const int N=500;
+unsigned long D[N], Q[N][N];// initial: 4294967295 without linking
+bool cmp(int x,int y){return D[x]<D[y];}
+
+unsigned long Prim(void)
+{
+	int i=N;
+	list<int> L;
+	for(memcpy(D,Q[0],sizeof(D));--i;L.push_back(i));
+	for(list<int>::iterator p;!L.empty();)
+	for(p=min_element(L.begin(),L.end(),cmp),i=*p,L.erase(p),p=L.end();L.end()!=++p;D[*p]<?=Q[i][*p]);
+	return	accumulate(1+D,N+D,0LU);
+}
+\end{minted}
 
 \subsection{Eulerian path}
 
