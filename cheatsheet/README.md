@@ -49,10 +49,11 @@ Currently the contents include
   + Tree representation in array [TODO]
   + Tree traversal [TODO]
 + Graph Theory
+  + Graph representation
   + Flood fill algorithm
-  + SPFA [TODO]
+  + SPFA
   + Floyd-Walshall algorithm
-  + Prim [TODO]
+  + Prim
   + Eulerian path [TODO]
   + Topological sort [TODO]
 

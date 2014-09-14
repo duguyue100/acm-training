@@ -360,6 +360,121 @@ int lcs(const string &s, const string &t)
 
 \section{Graph Theory}
 
+\subsection{Graph representation}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// The most common way to define graph is to use adjacency matrix
+// example:
+//     (1) (2) (3) (4) (5)
+// (1)  2   0   5   0   0
+// (2)  4   2   0   0   1
+// (3)  3   0   0   1   4
+// (4)  6   9   0   0   0
+// (5)  1   1   1   1   5
+// it's always a square matrix.
+// suppose a graph has n nodes, if given exactly adjacency matrix
+for (int i=1;i<=n;i++)
+	for (int j=1;i<=n;j++)
+	{
+		cin << a[i][j] << endl;
+	}
+// Usually will go like this representation in data
+// start_node end_node weight
+// suppose m lines
+for (int i=1;i<=m;i++)
+{
+	int x=0, y=0, t=0;
+	cin >> x >> y >> t;
+	a[x][y]=t;
+	// if undirected graph
+	a[y][x]=t;
+}
+// another variant: on the ith line, has data as
+// end_node weight
+// when you read data, you can assign matrix as
+a[i][x]=t;
+// if undirected graph
+a[x][i]=t;
+
+// Initialization of graph !!!IMPORTANT
+// Depends on usage, normally initialize as 0 for all elements in matrix.
+// so that 0 means no connection, non-0 means connection
+// (for problem without weight, use weight as 1)
+// If weights are important in this context (especially searching for path)
+// Initialize graph as infinity for all elements in matrix.
+
+// Another way to store graph is Adjacency list
+// No space advantage if using array (unknown maximum number for in-degree).
+// Big space advantage if using dynamic data structure (like list, vector).
+// each row represent a node and its connectivity.
+// we don't need it so much due to it's search efficiency.
+// let's define a node as
+struct Node{
+	int id; // node id
+	int w;  // weight
+};
+// suppose n nodes and m lines of inputs as
+// start_node end_node weight
+// assume using <vector> in this example
+// g is a vector, and each element of g is also a vector of Node
+for (int i=1;i<=m;i++)
+{
+	int x=0, y=0, t=0;
+	cin >> x >> y >> t;
+	Node temp; temp.id=y; temp.w=t;
+	g[x].push_back(temp);
+	// if undirected
+	temp.id=x;
+	g[y].push_back(temp);
+}
+// Note that you don't need this node structure if graph has only connectivity information.
+
+/**** Special Structure ****/
+
+// Special structure here is usually not a typical graph, like city-blocks, triangles
+// They are represented in 2-d array and shows weights on nodes instead of edges.
+// Note that in this case travel through edge has no cost, but visit node has cost.
+
+// Triangles: Read data like this
+// 1
+// 1 2
+// 4 2 7
+// 7 3 1 5
+// 6 2 9 4 6
+for (int i=1;i<=n;i++)
+	for (int j=i;j<=n;j++)
+		cin >> a[i][j];
+
+// Simple city-blocks: it's just like first form of adjacency matrix, but this time
+// represents weights on nodes, may not be square matrix.
+// 1 2 4 5 6
+// 2 4 5 1 3
+// 4 5 2 3 6
+for (int i=1;i<=n;i++)
+	for (int j=1;<=m;j++)
+		cin >> a[i][j];
+		
+// More complex data structures: typical city-block structure may has some constraints on
+// questions, but it has no boundaries. However, some questions requires to form a maze.
+// In these cases, data structures can be very flexible, it totally depends on how the question
+// presents the data. A usual way is to record it's adjacent blocks information:
+struct Block{
+	bool l[4]; // if has 8 neighbors then use bool l[8];
+	           // label them as your favor, e.x.
+	           //   1    1 2 3
+	           // 4 x 2  8 x 4
+	           //   3    7 6 5 
+	           // true if there is path, false if there is boundary
+	// other informations (optional)
+	int weight;
+	int component_id;
+	// etc.
+};
+		
+// Note that usually we use array from index 1 instead of 0 because sometimes
+// you need index 0 as your boundary, and start from index 1 will give you
+// advantage on locating nodes or positions
+\end{minted}
+
 \subsection{Flood fill algorithm}
 
 \begin{minted}[frame=lines, tabsize=2]{cpp}
@@ -391,6 +506,74 @@ void find_components()
 
 \subsection{SPFA --- shortest path}
 
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+int q[3001]={0}; // queue for node
+int d[1001]={0}; // record shortest path from start to ith node
+bool f[1001]={0};
+int a[1001][1001]={0}; // adjacency list
+int w[1001][1001]={0}; // adjacency matrix
+
+int main(void)
+{
+	int n=0, m=0;
+	cin >> n >> m;
+
+	for (int i=1;i<=m;i++)
+	{
+		int x=0, y=0, z=0; 
+		cin >> x >> y >> z; // node x to node y has weight z
+		a[x][0]++;
+		a[x][a[x][0]]=y;
+		w[x][y]=z;
+		/*
+		// for undirected graph
+		a[x][0]++;
+		a[y][a[y][0]]=x;
+		w[y][x]=z;
+		*/
+	}
+
+	int s=0, e=0;
+	cin >> s >> e; // s: start, e: end
+	SPFA(s);
+	cout << d[e] << endl;
+	
+	return 0;
+}
+
+void SPFA(int v0)
+{
+	int t,h,u,v;
+	for (int i=0;i<1001;i++) d[i]=INT_MAX;
+	for (int i=0;i<1001;i++) f[i]=false;
+	d[v0]=0;
+	h=0; t=1; q[1]=v0; f[v0]=true;
+
+	while (h!=t)
+	{
+		h++;
+		if (h>3000) h=1;
+		u=q[h];
+		for (int j=1; j<=a[u][0];j++)
+		{
+			v=a[u][j];
+			if (d[u]+w[u][v]<d[v]) // change to > if calculating longest path
+			{
+				d[v]=d[u]+w[u][v];
+				if (!f[v])
+				{
+					t++;
+					if (t>3000) t=1;
+					q[t]=v;
+					f[v]=true;
+				}
+			}
+		}
+		f[u]=false;
+	}
+}
+\end{minted}
+
 \subsection{Floyd-Warshall algorithm -- shortest path of all pairs}
 
 \begin{minted}[frame=lines, tabsize=2]{cpp}
@@ -408,18 +591,49 @@ void floyd()
 
 \subsection{Prim --- minimum spanning tree}
 \begin{minted}[frame=lines, tabsize=2]{cpp}
-const int N=500;
-unsigned long D[N], Q[N][N];// initial: 4294967295 without linking
-bool cmp(int x,int y){return D[x]<D[y];}
+int d[1001]={0};
+bool v[1001]={0};
+int a[1001][1001]={0};
 
-unsigned long Prim(void)
+int main(void)
 {
-	int i=N;
-	list<int> L;
-	for(memcpy(D,Q[0],sizeof(D));--i;L.push_back(i));
-	for(list<int>::iterator p;!L.empty();)
-	for(p=min_element(L.begin(),L.end(),cmp),i=*p,L.erase(p),p=L.end();L.end()!=++p;D[*p]<?=Q[i][*p]);
-	return	accumulate(1+D,N+D,0LU);
+	int n=0;
+	cin >> n;
+	for (int i=1;i<=n;i++)
+	{
+		int x=0, y=0, z=0;
+		cin >> x >> y >> z;
+		a[x][y]=z;
+	}
+	for (int i=1;i<=n;i++)
+		for (int j=1;j<=n;j++)
+			if (a[i][j]==0) a[i][j]=INT_MAX;
+			
+	cout << prim(1,n) << endl;
+}
+int prim(int u, int n)
+{
+	int mst=0,k;
+	
+	for (int i=0;i<d.length;i++) d[i]=INT_MAX;
+	for (int i=0;i<v.length;i++) v[i]=false;
+	
+	d[u]=0;
+	int i=u;
+
+	while (i!=0)
+	{
+		v[i]=true;k=0;
+		mst+=d[i];
+		for (int j=1;j<=n;j++)
+			if (!v[j])
+			{
+				if (a[i][j]<d[j]) d[j]=a[i][j];
+				if (d[j]<d[k]) k=j;
+			}
+		i=k;
+	}
+	return mst;
 }
 \end{minted}
 
