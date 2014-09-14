@@ -21,21 +21,23 @@
 
 \subsection{Common libraries}
 \begin{minted}[frame=lines, tabsize=2]{cpp}
-#include<iostream>
-#include<cstdio>
-#include<cmath>
-#include<string>
-#include<queue>
-#include<stack>
-#include<vector>
-#include<deque> // double ended queue
-#include<priority_queue> // priority queue
-#include <functional> // for hash
+/*** Functions ***/
 #include<algorithm>
+#include<functional> // for hash
+#include<climits> // all useful constants
+#include<cmath>
+#include<cstdio>
 #include<cstdlib> // random
 #include<ctime>
+#include<iostream>
 #include<sstream>
-#include<climits> // all useful constants 
+/*** Data Structure ***/
+#include<deque> // double ended queue
+#include<list>
+#include<queue> // including priority_queue
+#include<stack>
+#include<string>
+#include<vector>
 \end{minted}
 
 \subsection{Useful constant}
@@ -241,6 +243,7 @@ int lcm(int a, int b)
 \begin{minted}[frame=lines, tabsize=2]{cpp}
 bool prime(int n)
 {
+	if (n<2) return false;
 	for (int i=2;i*i<=n;i++)
 		if (n%i==0) return false;
 	return true;
