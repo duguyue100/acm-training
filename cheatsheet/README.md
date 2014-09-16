@@ -38,13 +38,15 @@ Currently the contents include
   + `a^b mod p`
   + Generate combinations
 + Searching Algorithms
-  + DFS [TODO]
-  + BFS [TODO]
-  + Find rank `k` in array [TODO]
+  + Find rank `k` in array
+  + KMP Algorithm
 + Dynamic Programming
-  + Knapsack problems [TODO]
-  + Longest common sequences [TODO]
-  + Maximum submatrix [TODO]
+  + 0/1 Knapsack problems
+  + Complete Knapsack problems
+  + Longest common sequences (LCS)
+  + Longest increasing common sequences (LICS)
+  + Longest increasing subsequence (LICS)
+  + Maximum submatrix
 + Trees
   + Tree representation in array [TODO]
   + Tree traversal [TODO]
@@ -54,8 +56,8 @@ Currently the contents include
   + SPFA
   + Floyd-Walshall algorithm
   + Prim
-  + Eulerian path [TODO]
-  + Topological sort [TODO]
+  + Eulerian path
+  + Topological sort
 
 ##Notes
 
