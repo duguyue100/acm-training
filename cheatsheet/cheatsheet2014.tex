@@ -244,8 +244,11 @@ int lcm(int a, int b)
 bool prime(int n)
 {
 	if (n<2) return false;
-	for (int i=2;i*i<=n;i++)
-		if (n%i==0) return false;
+	if (n<=3) return true;
+	if (!(n%2) || !(n%3)) return false;
+	for (int i=5;i*i<=n;i+=6)
+		if (!(n%i) || !(n%(i+2))) return false;
+		
 	return true;
 }
 \end{minted}
@@ -324,11 +327,159 @@ void combination(int n, int m)
 
 \subsection{Find rank $k$ in array}
 
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+int find(int l, int r, int k)
+{
+	int i=0,j=0,x=0,t=0;
+
+	if (l==r) return a[l];
+	x=a[(l+r)/2];
+	t=a[x]; a[x]=a[r]; a[r]=t;
+	i=l-1;
+
+	for (int j=l; j<=r-1;j++)
+		if (a[j]<=a[r])
+		{
+			i++;
+			t=a[i]; a[i]=a[j]; a[j]=t;
+		}
+	i++;
+	t=a[i]; a[i]=a[r]; a[r]=t;
+	if (i==k) return a[i];
+	if (i<k) return find(i+1, r,k);
+
+	return find(l, i-1, k);
+}
+\end{minted}
+
+\subsection{KMP Algorithm}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+typedef vector<int> VI;
+
+void buildTable(string& w, VI& t)
+{
+	t = VI(w.length());  
+	int i = 2, j = 0;
+	t[0] = -1; t[1] = 0;
+
+	while(i < w.length())
+	{
+		if(w[i-1] == w[j]) { t[i] = j+1; i++; j++; }
+		else if(j > 0) j = t[j];
+		else { t[i] = 0; i++; }
+	}
+}
+
+int KMP(string& s, string& w)
+{
+	int m = 0, i = 0;
+	VI t;
+  
+	buildTable(w, t);  
+	while(m+i < s.length())
+	{
+		if(w[i] == s[m+i])
+		{
+			i++;
+			if(i == w.length()) return m;
+		}
+		else
+		{
+			m += i-t[i];
+			if(i > 0) i = t[i];
+		}
+	}  
+	return s.length();
+}
+
+int main(void)
+{
+	string a = (string) "The example above illustrates the general technique for assembling "+
+		"the table with a minimum of fuss. The principle is that of the overall search: "+
+		"most of the work was already done in getting to the current position, so very "+
+		"little needs to be done in leaving it. The only minor complication is that the "+
+		"logic which is correct late in the string erroneously gives non-proper "+
+		"substrings at the beginning. This necessitates some initialization code.";
+  
+	string b = "table";
+  
+	int p = KMP(a, b);
+	cout << p << ": " << a.substr(p, b.length()) << " " << b << endl;
+	
+	return 0;
+}
+\end{minted}
+
 \section{Dynamic Programming}
 
-\subsection{Knapsack problems}
+\subsection{0/1 Knapsack problems}
 
-\subsection{Longest common subsequence}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+#include<iostream>
+
+using namespace std;
+
+int f[1000]={0};
+int n=0, m=0;
+
+int main(void)
+{
+	cin >> n >> m;
+
+	for (int i=1;i<=n;i++)
+	{
+		int price=0, value=0;
+		cin >> price >> value;
+
+		for (int j=m;j>=price;j--)
+			if (f[j-price]+value>f[j])
+				f[j]=f[j-price]+value;
+	}
+
+	cout << f[m] << endl;
+
+	return 0;
+}
+\end{minted}
+
+\subsection{Complete Knapsack problems}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+#include<iostream>
+
+using namespace std;
+
+int f[1000]={0};
+int n=0, m=0;
+
+int main(void)
+{
+	cin >> n >> m;
+
+	for (int i=1;i<=n;i++)
+	{
+		int price=0, value=0;
+		cin >> price >> value;
+
+		for (int j=price; j<=m; j++)
+			if (f[j-price]+value>f[j])
+				f[j]=f[j-price]+value;
+	}
+
+	cout << f[m] << endl;
+
+	return 0;
+}
+\end{minted}
+
+\subsection{Longest common subsequence (LCS)}
 \begin{minted}[frame=lines, tabsize=2]{cpp}
 int dp[1001][1001];
 
@@ -350,7 +501,146 @@ int lcs(const string &s, const string &t)
 }
 \end{minted}
 
+\subsection{Longest increasing common sequence (LICS)}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+#include<iostream>
+
+using namespace std;
+
+int a[100]={0};
+int b[100]={0};
+int f[100]={0};
+int n=0, m=0;
+
+int main(void)
+{
+	cin >> n;
+	for (int i=1;i<=n;i++) cin >> a[i];
+	cin >> m;
+	for (int i=1;i<=m;i++) cin >> b[i];
+
+	for (int i=1;i<=n;i++)
+	{
+		int k=0;
+		for (int j=1;j<=m;j++)
+		{
+			if (a[i]>b[j] && f[j]>k) k=f[j];
+			else if (a[i]==b[j] && k+1>f[j]) f[j]=k+1;
+		}
+	}
+
+	int ans=0;
+	for (int i=1;i<=m;i++)
+		if (f[i]>ans) ans=f[i];
+
+	cout << ans << endl;
+
+	return 0;
+}
+\end{minted}
+
+\subsection{Longest Increasing Subsequence (LIS)}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+#include<iostream>
+
+using namespace std;
+
+int n=0;
+int a[100]={0}, f[100]={0}, x[100]={0};
+
+int main(void)
+{
+	cin >> n;
+	for (int i=1;i<=n;i++)
+	{
+		cin >> a[i];
+		x[i]=INT_MAX;
+	}
+
+	f[0]=0;
+
+	int ans=0;
+	for(int i=1;i<=n;i++)
+	{
+		int l=0, r=i;
+
+		while (l+1<r)
+		{
+			int m=(l+r)/2;
+			if (x[m]<a[i]) l=m; else r=m;
+			// change to x[m]<=a[i] for non-decreasing case
+		}
+
+		f[i]=l+1;
+		x[l+1]=a[i];
+		if (f[i]>ans) ans=f[i];
+	}
+
+	cout << ans << endl;
+
+	return 0;
+}
+\end{minted}
+
 \subsection{Maximum submatrix}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// URAL 1146 Maximum Sum
+#include<iostream>
+
+using namespace std;
+
+int a[150][150]={0};
+int c[200]={0};
+
+int maxarray(int n)
+{
+   int b=0, sum=-100000000;
+   for (int i=1;i<=n;i++)
+   {
+      if (b>0) b+=c[i];
+      else b=c[i];
+      if (b>sum) sum=b;
+   }
+   
+   return sum;
+}
+
+int maxmatrix(int n)
+{
+   int sum=-100000000, max=0;
+   
+   for (int i=1;i<=n;i++)
+   {
+      for (int j=1;j<=n;j++)
+         c[j]=0;
+      
+      for (int j=i;j<=n;j++)
+      {
+         for (int k=1;k<=n;k++)
+            c[k]+=a[j][k];
+         max=maxarray(n);
+         if (max>sum) sum=max;
+      }
+   }
+   
+   return sum;
+}
+
+int main(void)
+{
+   int n=0;
+   cin >> n;
+   for (int i=1;i<=n;i++)
+      for (int j=1;j<=n;j++)
+         cin >> a[i][j];
+   
+   cout << maxmatrix(n);
+   return 0;
+}
+\end{minted}
 
 \section{Trees}
 
@@ -637,8 +927,150 @@ int prim(int u, int n)
 }
 \end{minted}
 
-\subsection{Eulerian path}
+\subsection{Eulerian circuit}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// USACO Fence
+#include<iostream>
+
+using namespace std;
+
+int f[100]={0}, ans[100]={0};
+bool g[100][100]={0}, v[100]={0};
+int n=0, m=0, c=0;
+
+void dfs(int k)
+{
+	for (int i=1;i<=n;i++)
+		if (g[k][i])
+		{
+			g[k][i]=false;
+			g[i][k]=false;
+			dfs(i);
+		}
+	m++;
+	ans[m]=k;
+}
+
+int main(void)
+{
+	cin >> n >> m;
+
+	for (int i=1;i<=m;i++)
+	{
+		int x=0, y=0;
+		g[x][y]=true;
+		g[y][x]=true;
+		f[x]++;
+		f[y]++;
+	}
+
+	m=0;
+	int k1=0;
+	for (int i=1;i<=n;i++)
+	{
+		if (f[i]%2==1) k1++;
+		if (k1>2)
+		{
+			cout << "error" << endl;
+			return 0;
+		}
+		if (f[i]%2 && c==0) c=i;
+	}
+
+	if (c==0) c=1;
+	dfs(x);
+
+	for (int i=m;i>=1;i--) cout << ans[i] << endl;
+	return 0;
+}
+\end{minted}
 
 \subsection{Topological sort}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// Find any solution of topological sort.
+#include<iostream>
+
+using namespace std;
+
+int f[100]={0}, ans[100]={0};
+bool g[100][100]={0}, v[100]={0};
+int n=0, m=0;
+
+void dfs(int k)
+{
+	int i=0;
+	v[k]=true;
+	for (int i=1;i<=n;i++)
+		if (g[k][i] && !v[i]) dfs(i);
+
+	m++;
+	ans[m]=k;
+}
+
+int main(void)
+{
+	cin >> n >> m;
+
+	for (int i=1;i<=m;i++)
+	{
+		int x=0, y=0;
+		cin >> x >> y;
+		g[y][x]=true;
+	}
+
+	m=0;
+	for (int i=1;i<=n;i++)
+		if (!v[i]) dfs(i);
+
+	for (int i=1;i<=n;i++) cout << ans[i] << endl;
+	return 0;
+}
+\end{minted}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// Find the order of topological sort is dictionary minimum
+#include<iostream>
+
+using namespace std;
+
+int f[100]={0}, ans[100]={0};
+bool g[100][100]={0}, v[100]={0};
+int n=0, m=0;
+
+int main(void)
+{
+	cin >> n >> m;
+
+	for (int i=1;i<=m;i++)
+	{
+		int x=0, y=0;
+		cin >> x >> y;
+		g[x][y]=true;
+		f[y]++;
+	}
+	for (int i=1;i<=n;i++)
+	{
+		for (int j=1;j<=n;j++)
+		{
+			if (f[j]==0 && !v[j]) break;
+
+			if (f[j]!=0)
+			{
+				cout << "error" << endl;
+				return 0;
+			}
+
+			ans[i]=j;
+			v[j]=true;
+			for (int k=1;k<=n;k++)
+				if (g[j][k]) f[k]--;
+		}
+	}
+	for (int i=1;i<=n;i++) cout << ans[i] << endl;
+	return 0;
+}
+\end{minted}
 
 \end{document}
