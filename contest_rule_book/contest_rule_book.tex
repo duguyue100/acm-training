@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath, amssymb}
 
 \title{\textbf{Contest Rule Book}}
 \author{Puzzles}
@@ -13,32 +14,123 @@
 This rule book provides specifications for organizing programming contests. The rule book is a guidance for setting contests, determining levels, calculating scores, enumerating ranks.
 \end{abstract}
 
+\tableofcontents
+
+\section{General Information}
+
+All contests are organized by Puzzles and based on Virtual Judge platform. In order to participate any contest, please register your account at Virtual Judge platform:
+\begin{verbatim}
+http://vjudge.net/
+\end{verbatim}
+If you want to receive our contest reminder, please send your email address to
+\begin{verbatim}
+amy.theia.knuth@gmail.com
+\end{verbatim}
+
+Currently, only Puzzles members are ranked.
+
 \section{League}
-
-\subsection{Golden league}
-
-\subsection{Silver league}
-
-\subsection{Bronze league}
 
 \subsection{Elementary league}
 
+\begin{itemize}
+	\item \textbf{Period:} 1 week
+	\item \textbf{Entry requirement:} None
+	\item \textbf{Support languages:} C, C++, Java
+	\item \textbf{Number of problems:} 4
+	\item \textbf{Duration:} 2 hours
+\end{itemize}
+
+\subsection{Bronze league}
+
+\begin{itemize}
+	\item \textbf{Period:} 2 weeks
+	\item \textbf{Entry requirement:} None
+	\item \textbf{Support languages:} C, C++, Java
+	\item \textbf{Number of problems:} 4
+	\item \textbf{Duration:} 3 hours
+\end{itemize}
+
+\subsection{Silver league}
+
+\begin{itemize}
+	\item \textbf{Period:} 3 weeks
+	\item \textbf{Entry requirement:} Participated in \textbf{3} Bronze league (or \textbf{2} Bronze league and \textbf{4} Elementary league) in recent 3 months.
+	\item \textbf{Support languages:} C, C++, Java
+	\item \textbf{Number of problems:} 5
+	\item \textbf{Duration:} 4 hours
+\end{itemize}
+
+\subsection{Golden league}
+
+\begin{itemize}
+	\item \textbf{Period:} 4 weeks
+	\item \textbf{Entry requirement:} Participated in 3 Silver league in recent 6 months.
+	\item \textbf{Support languages:} C, C++, Java
+	\item \textbf{Number of problems:} 7
+	\item \textbf{Duration:} 5 hours
+\end{itemize}
+
 \subsection{Season league}
+
+\begin{itemize}
+	\item \textbf{Period:} 12 weeks
+	\item \textbf{Entry requirement:} Participated all past Golden league.
+	\item \textbf{Support languages:} C, C++, Java
+	\item \textbf{Number of problems:} 7
+	\item \textbf{Duration:} 5 hours
+\end{itemize}
 
 \subsection{ACM/ICPC team selection league}
 
-\section{Level}
-
-\subsection{Master}
-
-\subsection{Coder}
-
-\subsection{Apprentice}
+\begin{itemize}
+	\item \textbf{Period:} 24 weeks
+	\item \textbf{Entry requirement:} Participated in 3 Golden league or 6 Silver league in past 6 months.
+	\item \textbf{Support languages:} C, C++, Java
+	\item \textbf{Number of problems:} 7
+	\item \textbf{Duration:} 5 hours
+\end{itemize}
 
 \section{Score}
 
+Score of a particular contest depends on participant's performance. Only top 20 participants are awarded scores. Participant $p$'s scores is calculated as:
+\begin{equation*}
+	\text{score}_{p}=20-\text{rank}_{p}+1
+\end{equation*}
+If the contest has $n<10$ participants, then the score is calculated as:
+\begin{equation*}
+	\text{score}_{p}=n-\text{rank}_{p}+1
+\end{equation*}
+
+\begin{itemize}
+	\item Master Score is calculated based on records of Golden and Season league.
+	\item Coder Score is calculated based on records of Silver league.
+	\item Apprentice is calculated based on records of Elementary and Bronze league.
+	\item \emph{ACM/ICPC Team Selection League is not considered for score calculation}.
+\end{itemize}
+
 \section{Ranking}
 
+The sorting priority of scores is: Master Score $>$ Coder Score $>$ Apprentice Score.
+
+\section{Level}
+
+The leveling is conducted after \textbf{every Season league}. Leveling will be conducted still based on time schedule if there is no Season league at that particular season. The leveling will not be conducted when total number of participants is less than 10.
+
+\subsection{Master}
+
+Top 10\% participants on ranking page are selected as Master. Participant who is selected as Master will receive a badge and a T-shirt.
+
+\subsection{Coder}
+
+Top 30\% participants on ranking page are selected as Coder. Participant who is selected as Coder will receive a badge and a T-shirt.
+
+\subsection{Apprentice}
+
+The rest participants on ranking page are selected as Apprentice.
+
 \section{Prize}
+
+The prize is set to every Golden league and Season league. And only top 3 participants are awarded.
 
 \end{document}
