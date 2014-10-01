@@ -31,6 +31,7 @@
 #include<ctime>
 #include<iostream>
 #include<sstream>
+#include<iomanip> // right justifying std::right and std::setw(width)
 /*** Data Structure ***/
 #include<deque> // double ended queue
 #include<list>
@@ -67,6 +68,14 @@ int main(void)
 #define int long long // redefine int
 
 // rest of program
+\end{minted}
+
+\subsection{Tricks in cmath}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// when the number is too large. use powl instead of pow.
+// will provide you more accuracy.
+powl(a, b)
+(int)round(p, (1.0/n)) // nth root of p
 \end{minted}
 
 \subsection{Initialize array with predefined value}
@@ -213,6 +222,13 @@ random_permutation(aVector, aVector + 10);
 	
 \section{Number Theory}
 
+\subsection{Prime number under 100}
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// there are 25 numbers
+2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37,
+41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
+\end{minted}
+
 \subsection{Max or min}
 \begin{minted}[frame=lines, tabsize=2]{cpp}
 int max(int a, int b) { return a>b ? a:b; }
@@ -259,11 +275,11 @@ bool prime(int n)
 // smallest prime factor of a number.
 function factor(int n)
 {
-    int a;
-    if (n%2==0)
-        return 2;
-    for (a=3;a<=sqrt(n);a++++)
-    {
+	int a;
+	if (n%2==0)
+		return 2;
+	for (a=3;a<=sqrt(n);a++++)
+	{
 		if (n%a==0)
 		return a;
 	}
@@ -275,7 +291,7 @@ int r;
 while (n>1)
 {
     r = factor(n);
-    printf(“%d “, r);
+    printf("%d", r);
     n /= r;
 }
 \end{minted}
