@@ -41,6 +41,24 @@
 #include<vector>
 \end{minted}
 
+\subsection{I/O}
+
+\begin{minted}[frame=lines, tabsize=2]{cpp}
+// iostream and cstdio are both using I/O streams
+// However, they have different behavior,
+// pay attention on them if you're using them together.
+
+// cin does not concern with '\n' at end of each line
+// however scanf or getline does concern with '\n' at end of each line
+// '\n' will be ignored when you use cin to read char.
+
+// when you use getline(cin, str) to read a whole line of input
+// please add an extra getline before inputing if previous inputs are numbers
+cin >> n;
+getline(cin, str) // wasted getline
+getline(cin, str) // real input string
+\end{minted}
+
 \subsection{Useful constant}
 
 \begin{minted}[frame=lines, tabsize=2]{cpp}
@@ -188,6 +206,44 @@ bool is_sorted(iterator first, iterator last);
 bool is_sorted(iterator first, iterator last, LessThanOrEqualFunction comp);
 // example for sort, if have array x, start_index, end_index;
 sort(x+start_index, x+end_index);
+
+/** sort a map **/
+// You cannot directly sort a map<key type, mapped data type>
+// if you only want to sort in key type
+// you can use insert method to copy map into another map
+// b.insert(make_pair(it->first, it->second) /* it is a map iterator */
+// this will result a map which sorts key type in increasing order
+// if you want to sort key type in decreasing order, then declare your map as
+// something like:
+// map<char, int, greater<char> >
+
+// if you want to sort based on key, you need to copy the data to a vector
+// where elements of vector are pair.
+// you can define a PAIR type by using:
+typedef pair<char, int> PAIR;
+
+// suppose this is the map
+map<char, int> a;
+
+// sort vector in decreasing order
+bool cmp_by_value(const PAIR& lhs, const PAIR& rhs) {
+  return lhs.second > rhs.second;
+}
+
+// sort key in increasing order
+bool cmp_by_char(const PAIR& lhs, const PAIR& rhs) {
+  return lhs.first < rhs.first;
+}
+
+// copy map data to vector
+vector<PAIR> b(a.begin(), a.end());
+
+// sort data
+sort(b.begin(), b.end(), cmp_by_value);
+
+// you can still call your data by b[i].first and b[i].second.
+// THE ABOVE CODES ARE EXAMPLE FOR SORTING A MAP.
+// PLEASE USE IT FOR YOUR OWN DEMANDS.
 \end{minted}
 
 \subsection{Permutations}
