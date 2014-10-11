@@ -86,12 +86,13 @@ Currently, only Puzzles members are ranked. The anniversary of the \textsc{Puzzl
 
 Score of a particular contest depends on participant's performance. Only top 20 participants are awarded scores. Participant $p$'s scores is calculated as:
 \begin{equation*}
-	\text{score}_{p}=20-\text{rank}_{p}+1
+	\text{score}_{p}=\sum_{i\in\text{accepted answers}}d_{i}(20-\text{rank}_{p}+1)
 \end{equation*}
 If the contest has $n<10$ participants, then the score is calculated as:
 \begin{equation*}
-	\text{score}_{p}=n-\text{rank}_{p}+1
+	\text{score}_{p}=\sum_{i\in\text{accepted answers}}d_{i}(n-\text{rank}_{p}+1)
 \end{equation*}
+where $d_{i}$ is the difficulty of problem $i$. All problems are classified as Easy, Medium, Hard and $d_{\text{easy}}=1$, $d_{\text{medium}}=2$, $d_{\text{hard}}=3$. Difficulty of each problem is identified by Organizing Committee.
 
 \begin{itemize}
 	\item Master Score is calculated based on records of Golden and Season league.
