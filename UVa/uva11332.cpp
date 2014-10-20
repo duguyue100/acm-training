@@ -1,55 +1,41 @@
-/*
- * uva11332.cpp
- *
- *  Created on: Oct 13, 2013
- *      Author: dgyHome
- */
-
 #include<iostream>
+#include<algorithm>
 #include<cstdio>
-#include<cstdlib>
-#include<string>
+#include<map>
+#include<cmath>
 
 using namespace std;
 
-string f(string st)
+long N;
+
+long sumd(long n)
 {
 	long sum=0;
-	for (int i=0;i<st.length();i++)
-		sum+=(long)(st[i]-'0');
-
-	string result="";
-
-	while (sum!=0)
+	while (n!=0)
 	{
-		result=(char)(sum%10+'0')+result;
-		sum/=10;
+		sum+=(n%10);
+		n/=10;
 	}
 
-	return result;
+	return sum;
+}
+
+long f(long n)
+{
+	while (n>=10)
+	{
+		n=sumd(n);
+	}
+
+	return n;
 }
 
 int main(void)
 {
-
-	while (1)
+	while (cin >> N && N!=0)
 	{
-		string str="";
-
-		cin >> str;
-
-		if (str=="0") break;
-
-		while (str.length()!=1)
-		{
-			str=f(str);
-		}
-
-		cout << str << endl;
-
+		cout << f(N) << endl;
 	}
 
 	return 0;
 }
-
-
