@@ -1,30 +1,36 @@
-/*
- * uva11687.cpp
- *
- *  Created on: Oct 16, 2013
- *      Author: dgyHome
- */
+// Uva 11687 Digits
 
 #include<iostream>
 #include<cstdio>
-#include<cstdlib>
 #include<string>
 
 using namespace std;
 
-int main(void)
+int cal_recurrence(string digits, int curr_iter)
 {
-	while (1)
-	{
-		string str="";
-		cin >> str;
+    int digits_len = (int)digits.length();
+    
+    if (digits == to_string(digits_len))
+        return curr_iter+1;
 
-		if (str=="END") break;
+    if (digits != to_string(digits_len))
+        return cal_recurrence(to_string(digits_len), curr_iter+1);
 
-		if (str=="1") cout << 1 << endl;
-		else if (str.length()==1) cout << 2 << endl;
-		else if (str.length()<10) cout << 3 << endl;
-		else cout << 4 << endl;
-	}
-	return 0;
+}
+
+int main()
+{
+    // freopen("input.in", "r", stdin);
+    // freopen("output.out", "w", stdout);
+
+    string digits="";
+    while (getline(cin, digits))
+    {
+        if (digits == "END") break;
+
+        int times = cal_recurrence(digits, 0);
+
+        cout << times << endl; 
+    }
+
 }
