@@ -1,0 +1,7 @@
+CompileFlags:
+  Add: [
+    "-std=c++14",
+    "-isystem/opt/homebrew/include/c++/15",
+    "-isystem/opt/homebrew/include/c++/15/backward"
+  ]
+  Compiler: /opt/homebrew/bin/g++-15
